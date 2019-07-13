@@ -2,7 +2,7 @@
 /**
  * B站追番列表
  *
- * version:1.0.0
+ * @version:1.0.0
  * @author AyagawaSeirin
  * https://github.com/AyagawaSeirin/BilibiliFollowPage
  * @package custom
@@ -18,7 +18,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 <!-- / aside -->
 
 <?php
-function getFollowData($userID, $cahceTime, $amout)
+function getFollowData($userID, $cacheTime, $amout)
 {
     $filePath = __DIR__ . '/assets/cache/BilibiliFollow.json';
 
@@ -29,16 +29,16 @@ function getFollowData($userID, $cahceTime, $amout)
         $data = json_decode($contents, true);
         if (time() - $data['time'] > $cahceTime || $data['BilibiliUid'] != $userID || $data['amout'] != $amout) {
             //缓存过期或B站UID更新或输出数量更新
-            $data = updateDate($userID, $cahceTime, $amout);
+            $data = updateDate($userID, $cacheTime, $amout);
         }
     } else {
         //缓存文件不存在
-        $data = updateDate($userID, $cahceTime, $amout);
+        $data = updateDate($userID, $cacheTime, $amout);
     }
     return $data;
 }
 
-function updateDate($userID, $cahceTime, $amout)
+function updateDate($userID, $cacheTime, $amout)
 {
     $filePath = __DIR__ . '/assets/cache/BilibiliFollow.json';
     $ch = curl_init();
@@ -110,16 +110,16 @@ function updateDate($userID, $cahceTime, $amout)
                                 </style>
                                 <?php
                                 $bilibiliUser = $this->fields->BilibiliUid;
-                                $cahceTime = $this->fields->CahceTime;
+                                $cacheTime = $this->fields->CacheTime;
                                 $amout = $this->fields->Amout;
 
                                 if ($bilibiliUser == "" || $bilibiliUser == null) {
                                     $bilibiliUser = '174471710';
                                     echo "<script>console.log('页面参数BilibiliUid检测为空或错误，已更换为174471710用户(本页面作者)追番列表')</script>";
                                 }
-                                if ($cahceTime == "" || $cahceTime == null) $cahceTime = 86400;
+                                if ($cacheTime == "" || $cacheTime == null) $cacheTime = 86400;
                                 if ($amout == "" || $amout == null || $amout > 100) $amout = 100;
-                                $data = getFollowData($bilibiliUser, $cahceTime, $amout);
+                                $data = getFollowData($bilibiliUser, $cacheTime, $amout);
                                 foreach ($data['data']['list'] as $value) {
                                     ?>
                                 <div class="panel panel-default">
