@@ -15,13 +15,11 @@
 
 首先请先确保目录（相对于主题目录）/assets/cache/可写！<br>
 新建独立页面，自定义模板选择“B站追番列表”<br>
-![](https://cdn.pplin.cn/blog/zwzmoe/uploads/2019/07/13/096371324091815.png)
 
-设置自定义参数<br>
+利用独立页面的自定义字段设置参数：<br>
 BilibiliUid：B站UID，必填参数。<br>
 Amout：输出数量，最大100，选填参数，默认值为100。<br>
 CahceTime：缓存文件更新时间，选填参数，默认值为86400，单位为秒。<br>
-![](https://cdn.pplin.cn/blog/zwzmoe/uploads/2019/07/13/103233264283136.png)
 
 发布页面后即可查看效果。<br>
 原创作品，请尊重原作版权~<br>
