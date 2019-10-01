@@ -4,7 +4,7 @@
 效果展示：[https://qwq.best/bf.html](https://qwq.best/bf.html "https://qwq.best/bf.html")<br>
 使用方法：[https://qwq.best/dev/84.html](https://qwq.best/dev/84.html "https://qwq.best/dev/84.html")<br>
 ## 版本记录
-master分支为最新稳定版本，dev分支为开发进度，其他分支为各个版本。
+master分支为最新稳定版本，dev分支为开发进度，其他分支为各个版本。<br>
 V2.0.0 - 2019.10.1<br>
 V1.0.0 - 2019.7.13<br>
 
