@@ -2,7 +2,7 @@
 /**
  * B站追番列表
  *
- * @version:2.0.0
+ * @version:2.5.0
  * @author AyagawaSeirin
  * https://github.com/AyagawaSeirin/BilibiliFollowPage
  * @package custom
@@ -14,7 +14,10 @@ $bilibiliUser = $this->fields->BilibiliUid;
 $cacheTime = $this->fields->CacheTime;
 $amout = $this->fields->Amout;
 $hideMedia = $this->fields->HideMedia;
+$lazyload = $this->fields->lazyload;
+$cdnurl = $this->fields->cdnurl;
 
+error_reporting(E_ALL ^ E_NOTICE);
 if ($bilibiliUser == "" || $bilibiliUser == null) {
     $bilibiliUser = '174471710';
 }
@@ -24,7 +27,7 @@ if ($amout == "" || $amout == null || $amout > 100) $amout = 100;
 /**
  * 作为异步接口时的操作
  */
-if ($_POST['post'] == '1') {
+if (isset($_POST['post']) == true && $_POST['post'] == '1') {
     $dirPath = __DIR__ . '/assets/cache/BilibiliFollow';
     $filePath = $dirPath . '/BilibiliFollow.json';
     //检测缓存目录是否存在，不存在则创建
@@ -125,6 +128,11 @@ function updateDate($userID, $cacheTime, $amout,$hideMedia)
 
 <?php $this->need('component/header.php'); ?>
 
+<?php if($lazyload == "1"):?>
+    <script src="https://cdn.bootcss.com/lazyloadjs/3.2.2/lazyload.min.js"></script>
+<?php endif; ?>
+
+
 <!-- aside -->
 <?php $this->need('component/aside.php'); ?>
 <!-- / aside -->
@@ -162,16 +170,17 @@ function updateDate($userID, $cacheTime, $amout,$hideMedia)
                                         padding: 0 !important;
 
                                     }
+                                    .seirin-bilibili-follow-img-dad{
+                                        max-width: 145px !important;
+                                    }
                                     .seirin-bilibili-follow-title {
                                         font-weight: 400;
                                         line-height: 24px;
-                                        color: #222;
                                         font-size: 22px;
                                         margin-bottom: 5px !important;
                                         margin-top: 2px !important;
                                     }
                                     .seirin-bilibili-follow-text {
-                                        color: #222;
                                         margin-bottom: 10px !important;
                                     }
 
@@ -182,7 +191,7 @@ function updateDate($userID, $cacheTime, $amout,$hideMedia)
                                     .seirin-bilibili-follow-content{
                                         padding-top:15px;
                                         padding-right: 20px;
-                                        padding-left:0!important;
+                                        padding-left:10px;
                                         padding-bottom:15px;
                                     }
                                     .seirin-bilibili-follow-panel-big{
@@ -202,7 +211,7 @@ function updateDate($userID, $cacheTime, $amout,$hideMedia)
                                 </style>
                                 <!--
                                 B站追番列表
-                                @version:2.0.0
+                                @version:2.5.0
                                 @author AyagawaSeirin
                                 https://github.com/AyagawaSeirin/BilibiliFollowPage
                                 https://qwq.best/dev/84.html
@@ -218,15 +227,15 @@ function updateDate($userID, $cacheTime, $amout,$hideMedia)
                                     </nav>
                                 </div>
                                 <script type="text/javascript">
-                                    console.log("\n %c BilibiliFollowPage v2.0.0 %c by AyagawaSeirin | qwq.best ","color:#444;background:#eee;padding:5px 0;","color:#F8F8FF;background:#F4A7B9;padding:5px 0;");
+                                    console.log("\n %c BilibiliFollowPage v2.5.0 %c by AyagawaSeirin | qwq.best ","color:#444;background:#eee;padding:5px 0;","color:#F8F8FF;background:#F4A7B9;padding:5px 0;");
                                     console.log("  BilibiliFollowPage : https://qwq.best/dev/84.html\n\n");
                                     var bilibiliItemTemple = '<div class="panel panel-default seirin-bilibili-follow-panel-big">'+
                                         '<div class="panel-body seirin-bilibili-follow-panel">'+
                                         '   <div class="row">'+
-                                        '       <div class="col-md-3" style="padding-right:2px;">'+
-                                        '           <img src="//<?=$_SERVER['SERVER_NAME']?>/usr/themes/handsome/assets/cache/BilibiliFollow/{media_id}.jpg" alt="{title}" class="seirin-bilibili-follow-img" class="lazy">'+
+                                        '       <div class="col-md-3 seirin-bilibili-follow-img-dad" style="padding-right:2px;">'+
+                                        '           <img id="img" <?=($lazyload == "1") ? 'data-original' : 'src';?>="<?=($cdnurl == null) ? '//'.$_SERVER['SERVER_NAME'].'/usr/themes/handsome/assets/cache/BilibiliFollow' : $cdnurl;?>/{media_id}.jpg" alt="{title}" class="seirin-bilibili-follow-img<?=($lazyload == "1") ? ' lazy' : null;?>">'+
                                         '       </div>'+
-                                        '       <a href="https://www.bilibili.com/bangumi/media/md{media_id}" target="_blank"><div class="col-md-9 seirin-bilibili-follow-content" style="padding-left:3;">'+
+                                        '       <a href="https://www.bilibili.com/bangumi/media/md{media_id}" target="_blank"><div class="col-md-9 seirin-bilibili-follow-content">'+
                                         '          <p class="seirin-bilibili-follow-title">{title}</p>'+
                                         '           <p class="seirin-bilibili-follow-text">{evaluate}</p>'+
                                         '           <p class="seirin-bilibili-follow-info">{season_type_name} | {areas_0_name} | {new_ep_index_show}</p>'+
@@ -274,6 +283,13 @@ function updateDate($userID, $cacheTime, $amout,$hideMedia)
 
                                     open();
                                 </script>
+                                <?php if($lazyload == "1"):?>
+                                    <script type="text/javascript" charset="utf-8">
+                                        $(function() {
+                                            $("img.lazy").lazyload({ threshold :180});
+                                        });
+                                    </script>
+                                <?php endif; ?>
                                 <?php echo Content::postContent($this, $this->user->hasLogin()); ?>
                             </div>
                         </div>
