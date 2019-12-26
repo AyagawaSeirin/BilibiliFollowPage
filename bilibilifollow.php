@@ -233,7 +233,7 @@ function updateDate($userID, $cacheTime, $amout,$hideMedia)
                                         '<div class="panel-body seirin-bilibili-follow-panel">'+
                                         '   <div class="row">'+
                                         '       <div class="col-md-3 seirin-bilibili-follow-img-dad" style="padding-right:2px;">'+
-                                        '           <img id="img" <?=($lazyload == "1") ? 'data-original' : 'src';?>="<?=($cdnurl == null) ? '//'.$_SERVER['SERVER_NAME'].'/usr/themes/handsome/assets/cache/BilibiliFollow' : $cdnurl;?>/{media_id}.jpg" alt="{title}" class="seirin-bilibili-follow-img<?=($lazyload == "1") ? ' lazy' : null;?>">'+
+                                        '           <img id="img" <?=($lazyload == "1") ? 'data-original' : 'src';?>="<?=($cdnurl == null) ? '//'.$_SERVER['SERVER_NAME'].'/usr/themes/handsome/assets/cache/BilibiliFollow' : $cdnurl;?>/{media_id}.jpg" class="seirin-bilibili-follow-img<?=($lazyload == "1") ? ' lazy' : null;?>">'+
                                         '       </div>'+
                                         '       <a href="https://www.bilibili.com/bangumi/media/md{media_id}" target="_blank"><div class="col-md-9 seirin-bilibili-follow-content">'+
                                         '          <p class="seirin-bilibili-follow-title">{title}</p>'+
